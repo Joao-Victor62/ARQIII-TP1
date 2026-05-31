@@ -21,7 +21,6 @@ module tb_write_path_tb();
 
         clk = 0; rst = 1;
         
-        // Atribuição campo a campo para evitar o bug do Icarus
         cpu_req.addr  = 32'h0;
         cpu_req.data  = 32'h0;
         cpu_req.rw    = 1'b0;
@@ -33,7 +32,6 @@ module tb_write_path_tb();
         $display(" INICIANDO TESTES DE ESCRITA (WRITE PATH)");
         $display("--------------------------------------------------");
 
-        // 1. Escrita com MISS (Write-Allocate)
         $display("[Ciclo %0t] -> Escrita com MISS (Write-Allocate) no endereco 0x0000_0200", $time);
         cpu_req.addr  = 32'h0000_0200;
         cpu_req.data  = 32'hDEADBEEF;
@@ -54,7 +52,6 @@ module tb_write_path_tb();
 
         #50;
 
-        // 2. Escrita com HIT
         $display("[Ciclo %0t] -> Escrita com HIT no endereco 0x0000_0200", $time);
         cpu_req.addr  = 32'h0000_0200;
         cpu_req.data  = 32'hCAFEBABE;
@@ -68,7 +65,6 @@ module tb_write_path_tb();
         #5;
 
         $display("[Ciclo %0t] -> Validando escrita na cache...", $time);
-        // Verifica se o dado foi atualizado na Cache Data
         if (uut_cache.data_read_w0[31:0] === 32'hCAFEBABE)
             $display("[SUCESSO] Dado escrito com sucesso no Hit.");
         else

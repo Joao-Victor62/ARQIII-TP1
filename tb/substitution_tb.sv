@@ -44,7 +44,7 @@ module tb_substitution_tb();
         wait(cpu_res.ready == 1'b1);
         @(posedge clk);
         cpu_req.valid = 1'b0;
-        #5; // Atraso para propagação do sinal
+        #5;
 
         // ====================================================================
         // 2. Preencher a Via 1 (Tag 1) - Cache Set 0 fica CHEIO
@@ -64,7 +64,6 @@ module tb_substitution_tb();
         // 3. Forçar a Substituição (Tag 2) - LRU expulsa a Via 0
         // ====================================================================
         $display("\n[Ciclo %0t] -> Escrita 3: Endereco 0x0000_8000 (Forca Substituicao)", $time);
-        // Espera-se que este passo demore mais tempo, pois engloba um Write-Back + Allocate
         cpu_req.addr  = 32'h0000_8000;
         cpu_req.data  = 32'h3333_3333;
         cpu_req.rw    = 1'b1;
@@ -80,8 +79,6 @@ module tb_substitution_tb();
         // ====================================================================
         $display("\n--- Validando Politicas de Cache ---");
         
-        // A Via 0 devia ter a Tag 0. Com a ejetada pelo LRU, deve ter a Tag 2 (18'h2).
-        // A Via 1 deve manter-se intacta com a Tag 1 (18'h1).
         if (uut_cache.tag_read_w0.TAG === 18'h2 && uut_cache.tag_read_w1.TAG === 18'h1) begin
             $display("[SUCESSO] Politica LRU funcionou perfeitamente. A Via 0 foi ejetada e substituida.");
         end else begin
@@ -89,8 +86,6 @@ module tb_substitution_tb();
                      uut_cache.tag_read_w0.TAG, uut_cache.tag_read_w1.TAG);
         end
 
-        // Validar Write-Back: O dado "1111_1111" da primeira escrita foi ejetado.
-        // Ele precisa estar gravado no índice de RAM correspondente ao endereço 0x0000_0000 (Indice 0).
         if (uut_mem.ram[0][31:0] === 32'h1111_1111) begin
             $display("[SUCESSO] Write-Back executado com sucesso! Dado transferido para a RAM.");
         end else begin

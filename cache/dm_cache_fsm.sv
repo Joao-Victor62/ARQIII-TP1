@@ -47,7 +47,7 @@ module dm_cache_fsm(
     assign hit_w1 = (cpu_req.addr[TAGMSB:TAGLSB] == tag_read_w1.TAG) && tag_read_w1.valid;
 
     initial begin
-        for (int i=0; i<1024; i++) lru_mem[i] = 1'b0; // Inicializa elegendo a Via 0 como candidata
+        for (int i=0; i<1024; i++) lru_mem[i] = 1'b0;
     end
 
     always @(*) begin
@@ -82,7 +82,6 @@ module dm_cache_fsm(
         lru_we = 1'b0;
         lru_din = 1'b0;
 
-        // Atribuição padrão dos barramentos da memória principal para evitar latches genéricos
         v_mem_req.addr  = cpu_req.addr;
         v_mem_req.data  = '0;
         v_mem_req.rw    = '0;
@@ -137,7 +136,6 @@ module dm_cache_fsm(
                     vstate = idle;
                 end
                 else begin
-                    // MISS: Amostra o indicador de LRU atual para travar qual será a via despejada
                     v_victim_way = lru_mem[idx];
                     
                     if (v_victim_way == 1'b0) begin
@@ -158,7 +156,6 @@ module dm_cache_fsm(
             end
 
             write_back : begin
-                // Mantém os sinais válidos estavelmente durante todo o atraso de escrita da memória
                 v_mem_req.valid = '1;
                 v_mem_req.rw = '1;
                 if (victim_way == 1'b0) begin
@@ -175,7 +172,6 @@ module dm_cache_fsm(
             end
             
             allocate: begin
-                // Mantém os sinais estáveis solicitando a nova linha de blocos da memória principal
                 v_mem_req.valid = '1;
                 v_mem_req.rw = '0;
                 v_mem_req.addr = cpu_req.addr;

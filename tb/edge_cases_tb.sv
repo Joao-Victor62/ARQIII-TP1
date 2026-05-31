@@ -23,7 +23,6 @@ module tb_edge_cases_tb();
 
         clk = 0; rst = 1;
         
-        // Atribuição campo a campo para evitar erro no Icarus
         cpu_req.addr  = 32'h0;
         cpu_req.data  = 32'h0;
         cpu_req.rw    = 1'b0;
@@ -38,8 +37,6 @@ module tb_edge_cases_tb();
         // ====================================================================
         // CENÁRIO 1: Comportamento com Cache Completamente Inválida
         // ====================================================================
-        // A cache acaba de ser ligada. Os bits "valid" são todos 0.
-        // Tentar ler qualquer endereço DEVE forçar um Miss e ir à memória principal.
         $display("\n[Ciclo %0t] -> Tentando ler Endereco 0x0000_0100 em Cache Vazia/Invalida...", $time);
         cpu_req.addr  = 32'h0000_0100;
         cpu_req.rw    = 1'b0;
@@ -51,8 +48,6 @@ module tb_edge_cases_tb();
         cpu_req.valid = 1'b0;
         #5;
 
-        // Como a memória RAM começa cheia de zeros, o dado retornado deve ser 0.
-        // O importante é observar no terminal que isso levou bastante tempo (10 ciclos de RAM).
         if (dado_capturado === 32'h0) begin
             $display("[SUCESSO] Cache invalidada gerou Miss corretamente e carregou da RAM. Dado: %h", dado_capturado);
         end else begin
@@ -95,7 +90,6 @@ module tb_edge_cases_tb();
         // ====================================================================
         // CENÁRIO 3: Acesso a Endereço Extremo Superior (0xFFFF_FFFC)
         // ====================================================================
-        // FFFC aponta para a última palavra (Word 3) da última linha (Index 1023) da memória
         $display("\n[Ciclo %0t] -> Escrevendo no Endereco Extremo Superior (0xFFFF_FFFC)...", $time);
         cpu_req.addr  = 32'hFFFF_FFFC;
         cpu_req.data  = 32'h9988_7766;

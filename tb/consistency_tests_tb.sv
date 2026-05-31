@@ -15,7 +15,6 @@ module tb_consistency_tb();
 
     always #5 clk = ~clk;
 
-    // Variavel auxiliar para capturar o dado no momento exato do Hit
     logic [31:0] dado_capturado;
 
     initial begin
@@ -51,7 +50,6 @@ module tb_consistency_tb();
         cpu_req.valid = 1'b1;
         wait(cpu_res.ready == 1'b1);
         
-        // CAPTURA IMEDIATA DO BARRAMENTO
         dado_capturado = cpu_res.data; 
         
         @(posedge clk);
@@ -82,7 +80,6 @@ module tb_consistency_tb();
         cpu_req.valid = 1'b1;
         wait(cpu_res.ready == 1'b1);
         
-        // CAPTURA IMEDIATA DO BARRAMENTO
         dado_capturado = cpu_res.data; 
         
         @(posedge clk);
@@ -125,7 +122,6 @@ module tb_consistency_tb();
         cpu_req.valid = 1'b1;
         wait(cpu_res.ready == 1'b1);
         
-        // CAPTURA IMEDIATA DO BARRAMENTO
         dado_capturado = cpu_res.data; 
         
         @(posedge clk);

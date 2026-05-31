@@ -33,20 +33,20 @@ module main_memory(
         end else begin
             case (state)
                 mem_idle: begin
-                    mem_data.ready <= '0; // Baixa o sinal de pronto
+                    mem_data.ready <= '0;
                     
                     if (mem_req.valid) begin
                         state <= mem_busy;
-                        delay_count <= 4'd10; // Configura o atraso para 10 ciclos!
+                        delay_count <= 4'd10; 
                     end
                 end
                 
                 mem_busy: begin
                     if (delay_count > 0) begin
-                        delay_count <= delay_count - 1; // Contagem decrescente
+                        delay_count <= delay_count - 1;
                     end 
                     else begin
-                        mem_data.ready <= '1; // Avisa a Cache: "Terminei!"
+                        mem_data.ready <= '1;
                         
                         if (mem_req.rw == 1'b0) begin
                             mem_data.data <= ram[ram_index];
@@ -55,7 +55,7 @@ module main_memory(
                             ram[ram_index] <= mem_req.data;
                         end
                         
-                        state <= mem_idle; // Volta a dormir no próximo ciclo
+                        state <= mem_idle;
                     end
                 end
             endcase
