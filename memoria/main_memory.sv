@@ -1,14 +1,16 @@
+import cache_def::*;
+
 module main_memory(
     input bit clk,
     input bit rst,
-    input cache_def::mem_req_type mem_req,   // O pedido que vem do Controlador
-    output cache_def::mem_data_type mem_data // A resposta que vai para o Controlador
+    input mem_req_type mem_req,   
+    output mem_data_type mem_data 
 );
     timeunit 1ns; timeprecision 1ps;
     import cache_def::*;
 
     //RAM de 64KB (4x maior que a cache)
-    bit [127:0] ram [0:4095];
+    logic [127:0] ram [0:4095];
 
     logic [11:0] ram_index;
     assign ram_index = mem_req.addr[15:4]; 

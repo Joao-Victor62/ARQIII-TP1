@@ -1,12 +1,13 @@
+import cache_def::*;
+
 module dm_cache_data(
     input bit clk,
-    input cache_def::cache_req_type data_req,   //data request/command, e.g. RW, valid
-    input cache_def::cache_data_type data_write, //write port (128-bit line)
-    output cache_def::cache_data_type data_read  //read port
+    input cache_req_type data_req,   
+    input cache_data_type data_write, 
+    output cache_data_type data_read  
 );
     timeunit 1ns; timeprecision 1ps;
-    import cache_def::*;
-
+    
     cache_data_type data_mem[0:1023];
 
     initial begin

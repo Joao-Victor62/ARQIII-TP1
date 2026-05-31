@@ -1,8 +1,10 @@
+import cache_def::*;
+
 module dm_cache_tag(
-    input bit clk, //write clock
-    input cache_def::cache_req_type tag_req,    //tag request/command, e.g. RW, valid
-    input cache_def::cache_tag_type tag_write,  //write port
-    output cache_def::cache_tag_type tag_read   //read port
+    input bit clk, 
+    input cache_req_type tag_req,    
+    input cache_tag_type tag_write,  
+    output cache_tag_type tag_read   
 );
     timeunit 1ns; timeprecision 1ps;
     import cache_def::*;

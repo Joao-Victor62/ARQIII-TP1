@@ -1,0 +1,18 @@
+# Executável do Icarus Verilog
+cache_sim
+
+# Arquivos de formas de onda (Waveforms)
+*.vcd
+*.wlf
+*.wdb
+
+# Arquivos temporários de simulação e compilação
+*.out
+*.log
+*.history
+work/
+transcript
+
+# Pastas de configuração de IDEs (opcional, mas recomendado)
+.vscode/
+.idea/
