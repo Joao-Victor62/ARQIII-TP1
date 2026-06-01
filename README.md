@@ -1,7 +1,5 @@
 # Controlador de Cache - ARQIII TP1
 
-Trabalho Prático 1 da disciplina Arquitetura de Computadores III.
-
 ## Descrição
 
 Este projeto implementa um controlador de cache em SystemVerilog baseado na Seção 5.12 do livro *Computer Organization and Design - RISC-V Edition*.
